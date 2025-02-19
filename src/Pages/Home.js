@@ -15,7 +15,7 @@ const Home = () => {
         name: "",
         address: "",
         select: "",
-        check: "",
+        check: [],
         radio:"",
 
     });
@@ -24,9 +24,19 @@ const Home = () => {
     const[userData,setUserData]=useState([]);
 
     const handelChange=(e)=>{
+        const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+        setFormdata((prev) => ({
+            ...prev,
+            check: checked
+                ? [...prev.check, value]  // Add selected checkbox to array
+                : prev.check.filter((item) => item !== value),  // Remove unchecked item
+        }));
+    } else {
         // console.log("e",e.target.value);
         setFormdata({...formdata,[e.target.name]:e.target.value})
-
+    }
     };
 
 
@@ -34,9 +44,9 @@ const Home = () => {
         let errors = {};
         if (!formdata.name.trim()) errors.name = "Name is required";
         if (!formdata.address.trim()) errors.address = "Address is required";
-        if (!formdata.select) errors.select = "City selection is required";
-        if (!formdata.radio) errors.radio = "Please select Yes or No";
-        if (!formdata.check) errors.check = "Please select at least one hobby";
+        if (!formdata.select) errors.select = "city selection is required";
+        if (!formdata.radio) errors.radio = "Please select the Gender";
+        if (!formdata.check) errors.check = "Please select at least one Language";
 
         setErrors(errors);
         return Object.keys(errors).length === 0;
@@ -62,7 +72,7 @@ const Home = () => {
             setUserData([...userData,formdata])
         }
         setShowForm(false);
-        setFormdata({ name: "", address: "", select: "", check: "", radio: "" }); 
+        setFormdata({ name: "", address: "", select: "", check: [], radio: "" }); 
     }
 
     useEffect(()=>{
@@ -80,8 +90,15 @@ const Home = () => {
     const handelEdit=(item,index)=>{
         // console.log("item",item);
         // console.log("index",index)
-        setFormdata(item);
+        setFormdata({
+            name: item.name,
+        address: item.address,
+        select: item.select,
+        check: item.check || [],  // Ensure checkboxes are stored as an array
+        radio: item.radio,
+        });
         setEditIndex(index);
+        setShowForm(true);
 
     }
 
@@ -127,60 +144,62 @@ const Home = () => {
                                 <label for="exampleFormControl" class="form-label" >Select the City:</label>
                                 <select class="form-select" aria-label="Default select example" name='select' value={formdata.select} onChange={handelChange}>
                                     <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="Surat">Surat</option>
+                                    <option value="Ahemdabad">Ahemdabad</option>
+                                    <option value="Varodra">Varodra</option>
                                 </select>
 
                                 {errors.select && <p className="text-danger">{errors.select}</p>}
 
 
-                                <div class="form-check">
-                                <label for="exampleFormControlTextarea1" class="form-label">Language:</label> <br/>
-                                    <input class="form-check-input" type="checkbox"  value="Reading"
-                                        checked={formdata.check === "Reading"} id="flexCheckDefault" name='check' onChange={handelChange} />
-                                    <label class="form-check-label" for="flexCheckDefault">JavaScript</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Cricket"
-                                        checked={formdata.check === "Cricket"} id="flexCheckChecked"   name='check' onChange={handelChange}/>
-                                    <label class="form-check-label" for="flexCheckChecked">Ui/Ux</label>
-                                </div>
+                                <label class="form-label">Languages:</label> <br/>
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" value="JavaScript"
+        checked={formdata.check.includes("JavaScript")} name="check" onChange={handelChange} />
+    <label class="form-check-label">JavaScript</label>
+</div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Cricket"
-                                        checked={formdata.check === "Cricket"} id="flexCheckChecked"   name='check' onChange={handelChange}/>
-                                    <label class="form-check-label" for="flexCheckChecked">React JS</label>
-                                </div>
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" value="UI/UX"
+        checked={formdata.check.includes("UI/UX")} name="check" onChange={handelChange} />
+    <label class="form-check-label">UI/UX</label>
+</div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Cricket"
-                                        checked={formdata.check === "Cricket"} id="flexCheckChecked"   name='check' onChange={handelChange}/>
-                                    <label class="form-check-label" for="flexCheckChecked">python</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Cricket"
-                                        checked={formdata.check === "Cricket"} id="flexCheckChecked"   name='check' onChange={handelChange}/>
-                                    <label class="form-check-label" for="flexCheckChecked">Cyber Security</label>
-                                </div>
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" value="React JS"
+        checked={formdata.check.includes("React JS")} name="check" onChange={handelChange} />
+    <label class="form-check-label">React JS</label>
+</div>
+
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" value="Python"
+        checked={formdata.check.includes("Python")} name="check" onChange={handelChange} />
+    <label class="form-check-label">Python</label>
+</div>
+
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" value="Cyber Security"
+        checked={formdata.check.includes("Cyber Security")} name="check" onChange={handelChange} />
+    <label class="form-check-label">Cyber Security</label>
+</div>
                                 {errors.select && <p className="text-danger">{errors.select}</p>}
 
 
                                 <div class="form-check">
 
-                                    <label for="exampleFormControlTextarea1" class="form-label">Deep:</label> <br/>
-                                    <input class="form-check-input" type="radio" name="radio" id="exampleRadios1"  value="Yes"
-                                        checked={formdata.radio === "Yes"}  onChange={handelChange}/>
+                                    <label for="exampleFormControlTextarea1" class="form-label">Gender:</label> <br/>
+                                    <input class="form-check-input" type="radio" name="radio" id="exampleRadios1"  value="Female"
+                                        checked={formdata.radio === "Female"}  onChange={handelChange}/>
                                     <label class="form-check-label" for="exampleRadios1">
-                                        yes
+                                        Female
                                     </label>
                                 </div>
                                 <div class="form-check">
 
-                                    <input class="form-check-input" type="radio" name="radio" id="exampleRadios2"  value="No"
-                                        checked={formdata.radio === "No"}  onChange={handelChange}/>
+                                    <input class="form-check-input" type="radio" name="radio" id="exampleRadios2"  value="Male"
+                                        checked={formdata.radio === "Male"}  onChange={handelChange}/>
                                     <label class="form-check-label" for="exampleRadios2">
-                                        No
+                                        Male
                                     </label>
                                 </div>
                                 {errors.radio && <p className="text-danger">{errors.radio}</p>}
@@ -257,8 +276,8 @@ const Home = () => {
                         <th>Name</th>
                         <th>Address</th>
                         <th>City</th>
-                        <th>Hobby</th>
-                        <th>Answer</th>
+                        <th>Languages</th>
+                        <th>Gender</th>
                         <th colSpan={"2"}>Action</th>
                     </tr>
                 </thead>
@@ -271,7 +290,7 @@ const Home = () => {
                                     <td>{item.name}</td>
                                     <td>{item.address}</td>
                                     <td>{item.select}</td>
-                                    <td>{item.check}</td>
+                                    <td>{item.check.join(",")}</td>
                                     <td>{item.radio}</td>
                                     <td>
                                         <button className='btn btn-info mx-3' onClick={()=>handelEdit(item,i)}>Edit</button>
