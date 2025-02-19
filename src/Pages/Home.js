@@ -168,7 +168,7 @@ const Home = () => {
 
                                 <div class="form-check">
 
-                                    <label for="exampleFormControlTextarea1" class="form-label">Language:</label> <br/>
+                                    <label for="exampleFormControlTextarea1" class="form-label">Deep:</label> <br/>
                                     <input class="form-check-input" type="radio" name="radio" id="exampleRadios1"  value="Yes"
                                         checked={formdata.radio === "Yes"}  onChange={handelChange}/>
                                     <label class="form-check-label" for="exampleRadios1">
