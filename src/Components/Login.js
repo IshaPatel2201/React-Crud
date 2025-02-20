@@ -43,6 +43,7 @@ const navigate =useNavigate()
                                         <div className='form-outline mb-4'>
                                             <input 
                                              name='email'
+                                             required
                                               value={input.email}
                                               onChange={(e)=> setInput({
                                                  ...input,[e.target.name]:e.target.value,
@@ -56,6 +57,7 @@ const navigate =useNavigate()
 
                                         <div className='form-outline mb-4'>
                                             <input 
+                                            required
                                              name='password'
                                              value={input.password}
                                              onChange={(e)=> setInput({

@@ -37,7 +37,8 @@ const Register = () => {
                                     {/* <form onSubmit={handleSubmit} > */}
                                     <form onSubmit={handleSubmit}>
                                         <div className='form-outline mb-4'>
-                                            <input 
+                                            <input
+                                            required 
                                             name='name'
                                          value={input.name}
                                          onChange={(e)=> setInput({
@@ -58,6 +59,7 @@ const Register = () => {
 
                                         <div className='form-outline mb-4'>
                                             <input 
+                                            required
                                               name='email'
                                               value={input.email}
                                               onChange={(e)=> setInput({
@@ -72,6 +74,7 @@ const Register = () => {
 
                                         <div className='form-outline mb-4'>
                                             <input 
+                                            required
                                              name='password'
                                              value={input.password}
                                              onChange={(e)=> setInput({
